@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% if user.is_authenticated %}
+ <h1>Projects and Tasks</h1>
+    <ul>
+        {% for project in projects %}
+        <li>
+            {{ project.name }}
+            <a href="{% url 'project_update' pk=project.pk %}">Edit project</a>
+            <a href="{% url 'project_delete' pk=project.pk %}">Delete project</a>
+            <a href="{% url 'task_create' pk=project.pk %}">Create task</a>
+        </li>
+        <ul>
+            {% for task in project.tasks.all %}
+            <li>{{ task.name }} - {{ task.description }}</li>
+            <a href="{% url 'task_update' pk=task.pk %}">Edit task</a>
+            <a href="{% url 'task_delete' pk=task.pk %}">Delete task</a>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'project_create' %}">Create Projec</a>
+ <p></p>
+    {% else %}
+        <h1>You need to login</h1>
+    {% endif %}
+</body>
+</html>
