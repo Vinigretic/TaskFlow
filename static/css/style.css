@@ -1,0 +1,68 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.background-wrapper {
+    background: linear-gradient(#BEBAB2, #C6B162, #AA6622) no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh; /* Ensures the background covers the entire viewport height */
+}
+
+
+.btn-color {
+    background-color: #628E76;
+    color: white;
+}
+
+/*.border-rounded {
+    border: 1px solid gray !important;
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+}*/
+
+.btn-task {
+    font-family: Open Sans;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.btn-project {
+    font-family:  Open Sans;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.project-name {
+    font-family:  Open Sans;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.form-check-input[type="checkbox"] {
+    position: relative;
+    appearance: none;
+    width: 16px;
+    height: 18px;
+    background: linear-gradient(#f8f9fa, #e9ecef);
+    border: 1px solid #6c757d;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.form-check-input[type="checkbox"]:checked {
+    background: gray;
+}
+
+th {
+    word-break: break-all;
+}
+
+td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      word-break: break-all;
+    }
