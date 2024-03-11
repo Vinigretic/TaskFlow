@@ -33,3 +33,9 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
     template_name = 'taskflow/task_delete.html'
     success_url = reverse_lazy('project_list_with_tasks')
+
+
+class TaskUpdateCheckBoxView(LoginRequiredMixin, UpdateView):
+    model = Task
+    fields = ('status',)
+    success_url = reverse_lazy('project_list_with_tasks')
