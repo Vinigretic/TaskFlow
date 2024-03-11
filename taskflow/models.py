@@ -43,7 +43,9 @@ class Task(models.Model):
         verbose_name='Task name'
     )
     description = models.TextField(
-        verbose_name='Task description'
+        verbose_name='Task description',
+        null=True,
+        blank=True,
     )
     priority = models.CharField(
         verbose_name='Task priority',
