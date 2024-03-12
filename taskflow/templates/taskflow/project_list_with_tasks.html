@@ -1,10 +1,11 @@
 {% extends './base.html' %}
-{% load static i18n %}
+{% load static %}
 {% block title %}TaskFlow{% endblock %}
 
 {% block content %}
 <div class="background-wrapper">
     <div class="container">
+        {% if user.is_authenticated %}
         {% for project in projects %}
         <div class="row justify-content-center ">
             <table class="table table-hover col-lg-12 col-md-9 col-sm-6 col-xs-3">
@@ -55,7 +56,7 @@
                     </form>
                 </tr>
                 {% for task in project.tasks.all %}
-                <tr data-bs-toggle="collapse" data-bs-target="#{{ task.pk }}" aria-expanded="false"
+                <tr data-bs-toggle="#" data-bs-target="#{{ task.pk }}" aria-expanded="false"
                     aria-controls="{{ task.pk }}">
                     <td>
                         <form id="taskForm" action="{% url 'task_update_checkbox' pk=task.pk %}" method="post">
@@ -106,19 +107,26 @@
             </table>
         </div>
         {% endfor %}
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-6 text-center mt-4 p-4">
-            <div type="button" class="btn btn-primary">
-                <a href="{% url 'project_create' %}" class="link-light link-underline link-underline-opacity-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none"
-                         class="bi bi-plus-lg" viewBox="0 0 16 16" stroke="green" stroke-width="2">
-                        <path fill-rule="evenodd"
-                              d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-                    </svg>
-                    <span class="btn-project">Add TODO List</span></a>
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 text-center mt-4 p-4">
+                <div type="button" class="btn btn-primary">
+                    <a href="{% url 'project_create' %}" class="link-light link-underline link-underline-opacity-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none"
+                             class="bi bi-plus-lg" viewBox="0 0 16 16" stroke="green" stroke-width="2">
+                            <path fill-rule="evenodd"
+                                  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                        </svg>
+                        <span class="btn-project">Add TODO List</span></a>
+                </div>
             </div>
         </div>
+        {% else %}
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 text-center mt-4 p-4">
+                <h1>Please register or log in</h1>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
