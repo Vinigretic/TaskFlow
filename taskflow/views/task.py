@@ -1,4 +1,5 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
 
@@ -13,7 +14,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('project_list_with_tasks')
 
     def form_valid(self, form):
-        project = Project.objects.get(id=self.kwargs['pk'])   # get project with help of id
+        project = Project.objects.get(id=self.kwargs['pk'])  # get project with help of id
         form.instance.project = project
         return super().form_valid(form)
 
@@ -23,17 +24,29 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         return context
 
 
-class TaskUpdateView(LoginRequiredMixin, UpdateView):
+class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Task
     form_class = TaskForm
     template_name = 'taskflow/task_update.html'
     success_url = reverse_lazy('project_list_with_tasks')
 
+    def test_func(self):
+        return self.request.user == self.get_object().project.owner
 
-class TaskDeleteView(LoginRequiredMixin, DeleteView):
+    def handle_no_permission(self):
+        return redirect('project_list_with_tasks')
+
+
+class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Task
     template_name = 'taskflow/task_delete.html'
     success_url = reverse_lazy('project_list_with_tasks')
+
+    def test_func(self):
+        return self.request.user == self.get_object().project.owner
+
+    def handle_no_permission(self):
+        return redirect('project_list_with_tasks')
 
 
 class TaskUpdateCheckBoxView(LoginRequiredMixin, UpdateView):
