@@ -51,7 +51,7 @@ class Task(models.Model):
         verbose_name='Task priority',
         max_length=1,
         choices=TaskStatusChoices.choices,
-        default=TaskStatusChoices.MEDIUM,
+        default=TaskStatusChoices.LOW,
     )
     deadline = models.DateField(
         verbose_name='Task deadline',
