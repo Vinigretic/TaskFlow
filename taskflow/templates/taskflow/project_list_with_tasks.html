@@ -1,17 +1,8 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TaskFlow</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- my style-->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
+{% extends './base.html' %}
+{% load static i18n %}
+{% block title %}TaskFlow{% endblock %}
+
+{% block content %}
 <div class="background-wrapper">
     <div class="container">
         {% for project in projects %}
@@ -117,7 +108,7 @@
         {% endfor %}
     </div>
     <div class="row justify-content-center">
-        <div class="col-12 col-md-6 text-center">
+        <div class="col-12 col-md-6 text-center mt-4 p-4">
             <div type="button" class="btn btn-primary">
                 <a href="{% url 'project_create' %}" class="link-light link-underline link-underline-opacity-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none"
@@ -130,38 +121,5 @@
         </div>
     </div>
 </div>
+{% endblock %}
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var toggleCells = document.querySelectorAll('.toggle-row');
-
-      toggleCells.forEach(function(cell) {
-        cell.addEventListener('click', function() {
-          var row = this.parentNode;
-          var nextRow = row.nextElementSibling;
-
-          if (nextRow.classList.contains('collapse')) {
-            nextRow.classList.toggle('show');
-          }
-        });
-      });
-    });
-</script>
-<script>
-    // Find all the checkboxes on the page
-    var checkboxes = document.querySelectorAll('.form-check-input');
-
-    // For each checkbox add an event handler
-    checkboxes.forEach(function(checkbox) {
-        checkbox.addEventListener('change', function() {
-            // Finding form
-            var form = checkbox.closest('form');
-
-            // Send the form when the checkbox is changed
-            form.submit();
-        });
-    });
-</script>
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>-->
-</body>
-</html>
