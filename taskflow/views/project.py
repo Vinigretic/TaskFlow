@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
+from taskflow.forms import ProjectForm
 from taskflow.models import Project
 
 
@@ -19,18 +20,19 @@ class ProjectListView(ListView):
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
-    fields = ('name', )
+    form_class = ProjectForm
     template_name = 'taskflow/project_create.html'
     success_url = reverse_lazy('project_list_with_tasks')
 
     def form_valid(self, form):
+        # add user
         form.instance.owner = self.request.user  # form.instance - model instance which is created through a form
         return super().form_valid(form)
 
 
 class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     model = Project
-    fields = ('name', )
+    form_class = ProjectForm
     template_name = 'taskflow/project_update.html'
     success_url = reverse_lazy('project_list_with_tasks')
 

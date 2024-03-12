@@ -1,15 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>Are you sure you want to delete this project?</h1>
- {{project}}
-    <form action="{% url 'project_delete' pk=project.pk %}" method="post">
-        {% csrf_token %}
-        <button type="submit">Delete</button>
-    </form>
-</body>
-</html>
+{% extends './base.html' %}
+{% load static %}
+{% block title %}Delete Project{% endblock %}
+
+{% block content %}
+<div class="background-wrapper">
+    <div class="container">
+        <div class="row justify-content-center ">
+            <div class="col-md-6 text-center p-4">
+                <h3>Are you sure you want to delete this project?</h3>
+                <div class="wrap text-center">
+                    {{ project }}
+                </div>
+                <form action="{% url 'project_delete' pk=project.pk %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

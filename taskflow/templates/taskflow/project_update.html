@@ -1,16 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>Update Project</h1>
- <h1>Edit Project</h1>
-    <form action="{% url 'project_update' pk=project.pk %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Update</button>
-    </form>
-</body>
-</html>
+{% extends './base.html' %}
+{% load static %}
+{% block title %}Update Project{% endblock %}
+
+{% block content %}
+<div class="background-wrapper">
+    <div class="container">
+        <div class="row justify-content-center ">
+            <div class="col-md-6 text-center">
+                <h1>Update Project</h1>
+                <div class="p-4">
+                    <form action="{% url 'project_update' pk=project.pk %}" method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="btn btn-primary" type="submit">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
