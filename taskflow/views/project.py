@@ -1,5 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
@@ -38,10 +37,7 @@ class ProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     success_url = reverse_lazy('project_list_with_tasks')
 
     def test_func(self):
-        return self.request.user == self.get_object().owner  # if method return false method handle_no_permission make redirect
-
-    def handle_no_permission(self):
-        return redirect('project_list_with_tasks')  # belong to AccessMixin, but you can use it because UserPassesTestMixin
+        return self.request.user == self.get_object().owner
 
 
 class ProjectDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -51,6 +47,3 @@ class ProjectDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.request.user == self.get_object().owner
-
-    def handle_no_permission(self):
-        return redirect('project_list_with_tasks')

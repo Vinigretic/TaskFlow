@@ -1,5 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
 
@@ -33,9 +32,6 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         return self.request.user == self.get_object().project.owner
 
-    def handle_no_permission(self):
-        return redirect('project_list_with_tasks')
-
 
 class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Task
@@ -44,9 +40,6 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.request.user == self.get_object().project.owner
-
-    def handle_no_permission(self):
-        return redirect('project_list_with_tasks')
 
 
 class TaskUpdateCheckBoxView(LoginRequiredMixin, UpdateView):
