@@ -1,0 +1,12 @@
+line-length = 79
+lint.select = [
+    "E",
+    "F",
+    "D"
+]
+exclude = ["settings.py", "admin.py", "apps.py", "migrations", "README.md"]
+lint.ignore = ["D100", "D104", "D105", "D106", "D107", "D104", "D401", "D212"]
+
+
+
+

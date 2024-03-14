@@ -11,6 +11,7 @@ User = get_user_model()
 
 @pytest.mark.django_db
 def test_create_project_successful(django_client, user):
+    """Test case to verify successful creation of a project."""
     django_client.force_login(user)
     url = reverse("project_create")
     response = django_client.post(url, {'name': 'Test Project'})
@@ -20,6 +21,12 @@ def test_create_project_successful(django_client, user):
 
 @pytest.mark.django_db
 def test_create_project_failed(django_client):
+    """
+    Test create.
+
+    Test to verify failed creation of a project if
+    user is unauthenticated.
+    """
     url = reverse("project_create")
     response = django_client.post(url)  # Отправка POST-запроса
     parsed_url = urlparse(response.url)
@@ -28,9 +35,9 @@ def test_create_project_failed(django_client):
     assert path_without_params == reverse('account_login')
 
 
-#
 @pytest.mark.django_db
 def test_update_project_successful(django_client, user, project):
+    """Test case to verify successful update of a project."""
     django_client.force_login(user)
     new_name = "New Project Name"
     url = reverse("project_update", kwargs={"pk": project.id})
@@ -43,6 +50,12 @@ def test_update_project_successful(django_client, user, project):
 
 @pytest.mark.django_db
 def test_update_project_failed(django_client, project):
+    """
+    Test update project.
+
+    Test to verify failed update of a project if
+    user is unauthenticated or user is not the owner of the project.
+    """
     url = reverse("project_update", kwargs={"pk": project.id})
     response = django_client.post(url)
     parsed_url = urlparse(response.url)
@@ -50,7 +63,10 @@ def test_update_project_failed(django_client, project):
     assert response.status_code == 302
     assert path_without_params == reverse('account_login')
 
-    new_user = User.objects.create(username='testuser', password='testpassword')
+    new_user = User.objects.create(
+        username='testuser',
+        password='testpassword'
+    )
     django_client.force_login(new_user)
     response = django_client.post(url)
     assert response.status_code == 403
@@ -58,6 +74,7 @@ def test_update_project_failed(django_client, project):
 
 @pytest.mark.django_db
 def test_delete_project_successful(django_client, user, project):
+    """Test case to verify successful deletion of a project."""
     django_client.force_login(user)
     url = reverse("project_delete", kwargs={"pk": project.id})
     response = django_client.post(url)
@@ -67,6 +84,12 @@ def test_delete_project_successful(django_client, user, project):
 
 @pytest.mark.django_db
 def test_delete_project_failed(django_client, project):
+    """
+    Test delete project.
+
+    Test to verify failed deletion of a project if
+    user is unauthenticated or user is not the owner of the project.
+    """
     url = reverse("project_delete", kwargs={"pk": project.id})
     response = django_client.post(url)
     parsed_url = urlparse(response.url)
@@ -75,7 +98,10 @@ def test_delete_project_failed(django_client, project):
     assert path_without_params == reverse('account_login')
     assert Project.objects.all().count() == 1
 
-    new_user = User.objects.create(username='testuser', password='testpassword')
+    new_user = User.objects.create(
+        username='testuser',
+        password='testpassword'
+    )
     django_client.force_login(new_user)
     response = django_client.post(url)
     assert response.status_code == 403
@@ -84,6 +110,7 @@ def test_delete_project_failed(django_client, project):
 
 @pytest.mark.django_db
 def test_create_task_successful(django_client, user, project):
+    """Test case to verify successful creation of a task."""
     django_client.force_login(user)
     url = reverse("task_create", kwargs={"pk": project.id})
     response = django_client.post(url, {'name': 'New Task',
@@ -98,6 +125,12 @@ def test_create_task_successful(django_client, user, project):
 
 @pytest.mark.django_db
 def test_create_task_failed(django_client, project):
+    """
+    Test create task.
+
+    Test to verify failed creation of a task if
+    user is unauthenticated.
+    """
     url = reverse("task_create", kwargs={"pk": project.id})
     response = django_client.post(url)
     parsed_url = urlparse(response.url)
@@ -106,9 +139,9 @@ def test_create_task_failed(django_client, project):
     assert path_without_params == reverse('account_login')
 
 
-
 @pytest.mark.django_db
 def test_update_task_successful(django_client, user, task):
+    """Test case to verify successful update of a task."""
     django_client.force_login(user)
     new_task_name = 'New Task name'
     url = reverse("task_update", kwargs={"pk": task.id})
@@ -126,6 +159,12 @@ def test_update_task_successful(django_client, user, task):
 
 @pytest.mark.django_db
 def test_update_task_failed(django_client, task):
+    """
+    Test update task.
+
+    Test to verify failed update of a task if
+    user is unauthenticated or user is not the owner of the task.
+    """
     url = reverse("task_update", kwargs={"pk": task.id})
     response = django_client.post(url)
     parsed_url = urlparse(response.url)
@@ -133,7 +172,10 @@ def test_update_task_failed(django_client, task):
     assert response.status_code == 302
     assert path_without_params == reverse('account_login')
 
-    new_user = User.objects.create(username='testuser', password='testpassword')
+    new_user = User.objects.create(
+        username='testuser',
+        password='testpassword'
+    )
     django_client.force_login(new_user)
     response = django_client.post(url)
     assert response.status_code == 403
@@ -141,6 +183,7 @@ def test_update_task_failed(django_client, task):
 
 @pytest.mark.django_db
 def test_delete_task_successful(django_client, user, task):
+    """Test case to verify successful deletion of a task."""
     django_client.force_login(user)
     url = reverse("task_delete", kwargs={"pk": task.id})
     response = django_client.post(url)
@@ -150,6 +193,12 @@ def test_delete_task_successful(django_client, user, task):
 
 @pytest.mark.django_db
 def test_delete_task_failed(django_client, task):
+    """
+    Test delete task.
+
+    Test case to verify failed delete of a task if
+    user is unauthenticated or user is not the owner of the task.
+    """
     url = reverse("task_delete", kwargs={"pk": task.id})
     response = django_client.post(url)
     parsed_url = urlparse(response.url)
@@ -158,7 +207,10 @@ def test_delete_task_failed(django_client, task):
     assert path_without_params == reverse('account_login')
     assert Task.objects.all().count() == 1
 
-    new_user = User.objects.create(username='testuser', password='testpassword')
+    new_user = User.objects.create(
+        username='testuser',
+        password='testpassword'
+    )
     django_client.force_login(new_user)
     response = django_client.post(url)
     assert response.status_code == 403

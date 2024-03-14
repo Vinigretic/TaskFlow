@@ -3,6 +3,8 @@ from django.db import models
 
 
 class Project(models.Model):
+    """Model representing a project."""
+
     name = models.CharField(
         max_length=250,
         verbose_name='Project name'
@@ -19,6 +21,7 @@ class Project(models.Model):
     )
 
     def __str__(self):
+        """Returns a string representation of the project."""
         return f'{self.name}'
 
     class Meta:
@@ -28,6 +31,8 @@ class Project(models.Model):
 
 
 class Task(models.Model):
+    """Model representing a task."""
+
     class TaskStatusChoices(models.TextChoices):
         LOW = "L", "Low"
         MEDIUM = "M", "Medium"
@@ -69,7 +74,10 @@ class Task(models.Model):
     )
 
     def __str__(self):
-        return f'Task - {self.name}, priority - {self.get_priority_display()}, execution status - {self.status}'
+        """Returns a string representation of the task."""
+        return (f'Task - {self.name},'
+                f'priority - {self.get_priority_display()},'
+                f'execution status - {self.status}')
 
     class Meta:
         verbose_name = 'Task'

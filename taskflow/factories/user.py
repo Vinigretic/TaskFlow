@@ -8,8 +8,9 @@ class UserFactory(factory.django.DjangoModelFactory):
     """Factory for generating instances of the User model."""
 
     username = factory.Sequence(lambda x: f"User_{x}")
+    # obj - factory object, user model instance
     email = factory.LazyAttribute(
-        lambda obj: f'{obj.username}@example.com')  # obj - factory object, user model instance
+        lambda obj: f'{obj.username}@example.com')
 
     class Meta:
         model = User
