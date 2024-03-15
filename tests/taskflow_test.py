@@ -4,7 +4,7 @@ import pytest
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
-from taskflow.models import Project, Task
+from src.models import Project, Task
 
 User = get_user_model()
 

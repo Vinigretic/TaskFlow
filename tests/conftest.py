@@ -2,9 +2,9 @@ import pytest
 from django.test import Client
 from pytest_factoryboy import register
 
-from taskflow.factories.project import ProjectFactory
-from taskflow.factories.task import TaskFactory
-from taskflow.factories.user import UserFactory
+from src.factories.project import ProjectFactory
+from src.factories.task import TaskFactory
+from src.factories.user import UserFactory
 
 register(UserFactory)
 register(ProjectFactory)

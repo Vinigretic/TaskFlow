@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'taskflow.apps.ApiConfig',
+    'src.apps.ApiConfig',
     'allauth',
     'allauth.account',
     # 'allauth.socialaccount',
