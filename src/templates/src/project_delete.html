@@ -1,18 +1,13 @@
-{% extends './base.html' %}
-{% load static %}
-{% block title %}Delete Project{% endblock %}
-
-{% block content %}
 <div class="background-wrapper">
     <div class="container">
         <div class="row justify-content-center ">
             <div class="col-md-6 text-center p-4">
-                <h3>Are you sure you want to delete this project?</h3>
+                <h4>Are you sure you want to delete this project?</h4>
                 <div class="wrap text-center">
-                    {{ project }}
+                    <h3 class="p-4">{{ project }}</h3>
                 </div>
-                <form action="{% url 'project_delete' pk=project.pk %}" method="post">
-                    {% csrf_token %}
+                <form hx-post="{% url 'project_delete' pk=project.pk %}" hx-swap="innerHTML" hx-trigger="submit"
+                      hx-target="#query_result">
                     <button class="btn btn-primary" type="submit">Delete</button>
                 </form>
             </div>
@@ -20,4 +15,3 @@
     </div>
 </div>
 </div>
-{% endblock %}

@@ -11,18 +11,23 @@
                 </svg>
             </th>
             <th colspan="3" class="text-light"><span class="project-name">{{ project.name }}</span></th>
-            <th class="text-end col-1"><a href="{% url 'project_update' pk=project.pk %}" class="btn">
+
+            <th class="text-end col-1"><a hx-get="{% url 'project_update' pk=project.pk %}" class="btn"
+                                          hx-target="#query_result" hx-swap="innerHTML" hx-trigger="click">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                      class="bi bi-pencil" viewBox="0 0 16 16">
                     <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                 </svg>
             </a></th>
-            <th class="text-end col-1"><a href="{% url 'project_delete' pk=project.pk %}" class="btn">
+
+            <th class="text-end col-1"><a hx-get="{% url 'project_delete' pk=project.pk %}" class="btn"
+                                          hx-target="#query_result" hx-swap="innerHTML" hx-trigger="click">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                      class="bi bi-basket2-fill" viewBox="0 0 16 16">
                     <path d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383L5.93 1.757zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm4-1a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1"/>
                 </svg>
             </a>
+
             </th>
         </tr>
         </thead>
