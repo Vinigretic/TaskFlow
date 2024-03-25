@@ -1,22 +1,13 @@
-{% extends './base.html' %}
-{% load static %}
-{% block title %}Create Project{% endblock %}
-
-{% block content %}
-<div class="background-wrapper">
-    <div class="container">
-        <div class="row justify-content-center ">
-            <div class="col-md-6 text-center">
-                <h1>Create Project</h1>
-                <div class="p-4">
-                    <form action="{% url 'project_create'%}" method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button class="btn btn-primary" type="submit">Create</button>
-                    </form>
-                </div>
-            </div>
+<div class="row justify-content-center ">
+    <div class="col-md-6 text-center">
+        <h1>Create Project</h1>
+        <div class="p-4">
+            <form hx-post="{% url 'project_create' %}" hx-swap="innerHTML" hx-trigger="submit" hx-target="#query_result">
+                {{ form.as_p }}
+                <button class="btn btn-primary" type="submit">Create</button>
+            </form>
         </div>
     </div>
 </div>
-{% endblock %}
+
+

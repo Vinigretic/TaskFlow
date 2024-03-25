@@ -1,0 +1,44 @@
+{% extends './base.html' %}
+{% load static %}
+{% block title %}TaskFlow{% endblock %}
+
+{% block content %}
+<div class="background-wrapper">
+    <div class="container">
+        {% if user.is_authenticated %}
+        <!--        return of projects-->
+        <div id="query_result"
+             hx-target="this"
+             hx-swap="innerHTML"
+             hx-get="{% url 'project_list_with_tasks' %}"
+             hx-trigger="load">
+        </div>
+        <!--        display creation form-->
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 text-center mt-4 p-4">
+                <div type="button" class="btn btn-primary">
+                    <a hx-get="{% url 'project_create' %}"
+                       hx-target="#query_result"
+                       hx-swap="innerHTML"
+                       hx-trigger="click"
+                       class="link-light link-underline link-underline-opacity-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none"
+                             class="bi bi-plus-lg" viewBox="0 0 16 16" stroke="green" stroke-width="2">
+                            <path fill-rule="evenodd"
+                                  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                        </svg>
+
+                        <span class="btn-project">Add TODO List</span></a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 text-center mt-4 p-4">
+                <h1>Please register or log in</h1>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

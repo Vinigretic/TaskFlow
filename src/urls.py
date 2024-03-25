@@ -1,5 +1,6 @@
 from django.urls import path
 
+from src.views.index import IndexPageView
 from src.views.project import (
     ProjectListView,
     ProjectCreateView,
@@ -14,8 +15,12 @@ from src.views.task import (
 )
 
 urlpatterns = [
+    path('',
+         IndexPageView.as_view(),
+         name='index'
+         ),
     path(
-        '',
+        'project/list/with/tasks',
         ProjectListView.as_view(),
         name='project_list_with_tasks'
     ),

@@ -1,0 +1,15 @@
+<div id="task{{ task.pk }}">
+    <form id="taskForm" hx-post="{% url 'task_update_checkbox' pk=task.pk %}" hx-trigger="change"
+          hx-target="#task{{ task.pk }}"
+          hx-swap="outerHTML">
+        <div class="form-check">
+            {% if task.status %}
+            <input class="form-check-input" type="checkbox" id="statusdone{{ task.pk }}" name="status" checked>
+            <label class="form-check-label" for="statusdone{{ task.pk }}">Done</label>
+            {% else %}
+            <input class="form-check-input" type="checkbox" id="status{{ task.pk }}" name="status">
+            {% endif %}
+        </div>
+    </form>
+</div>
+

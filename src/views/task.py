@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
 
@@ -56,7 +57,10 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class TaskUpdateCheckBoxView(LoginRequiredMixin, UpdateView):
     """View for updating the status checkbox of an existing task."""
-
     model = Task
     fields = ('status',)
-    success_url = reverse_lazy('project_list_with_tasks')
+    template_name = 'src/task_checkbox.html'
+
+    def form_valid(self, form):
+        task = form.save()  # save to db
+        return render(self.request, self.template_name, {'task': task})

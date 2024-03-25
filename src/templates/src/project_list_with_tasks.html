@@ -1,132 +1,94 @@
-{% extends './base.html' %}
-{% load static %}
-{% block title %}TaskFlow{% endblock %}
-
-{% block content %}
-<div class="background-wrapper">
-    <div class="container">
-        {% if user.is_authenticated %}
-        {% for project in projects %}
-        <div class="row justify-content-center ">
-            <table class="table table-hover col-lg-12 col-md-9 col-sm-6 col-xs-3">
-                <thead>
-                <tr class="table-primary table-active">
-                    <th class="text-center col-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                             class="bi bi-window-dock justify-content-center" viewBox="0 0 16 16">
-                            <path d="M3.5 11a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm4.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
-                            <path d="M14 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zM2 14h12a1 1 0 0 0 1-1V5H1v8a1 1 0 0 0 1 1M2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1z"/>
-                        </svg>
-                    </th>
-                    <th colspan="3" class="text-light"><span class="project-name">{{ project.name }}</span></th>
-                    <th class="text-end col-1"><a href="{% url 'project_update' pk=project.pk %}" class="btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                             class="bi bi-pencil" viewBox="0 0 16 16">
-                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                        </svg>
-                    </a></th>
-                    <th class="text-end col-1"><a href="{% url 'project_delete' pk=project.pk %}" class="btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                             class="bi bi-basket2-fill" viewBox="0 0 16 16">
-                            <path d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383L5.93 1.757zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm4-1a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1"/>
-                        </svg>
-                    </a>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="table-secondary">
-                    <td class="text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none"
-                             class="bi bi-plus-lg" viewBox="0 0 16 16" stroke="green" stroke-width="2">
-                            <path fill-rule="evenodd"
-                                  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-                        </svg>
-                    </td>
-                    <form action="{% url 'task_create' pk=project.pk %}" method="post">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="task_name" class="form-label"></label>
-                            <td colspan="3"><input type="text" class="form-control" id="task_name" name="name"
-                                                   placeholder="Start typing here to create a task"></td>
-                        </div>
-                        <td class="text-center" colspan="2">
-                            <button type="submit" class="btn btn-color"><span class="btn-task">Add Task</span></button>
-                        </td>
-                    </form>
-                </tr>
-                {% for task in project.tasks.all %}
-                <tr data-bs-toggle="#" data-bs-target="#{{ task.pk }}" aria-expanded="false"
-                    aria-controls="{{ task.pk }}">
-                    <td>
-                        <form id="taskForm" action="{% url 'task_update_checkbox' pk=task.pk %}" method="post">
-                            {% csrf_token %}
-                            <div class="form-check">
-                                {% if task.status %}
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                <label class="form-check-label" for="flexCheckChecked">Done</label>
-                                {% else %}
-                                <input class="form-check-input" type="checkbox" id="status{{ task.pk }}" name="status">
-                                {% endif %}
-                            </div>
-                        </form>
-                    </td>
-                    <td colspan=2 class="text-start">{{ task.name }}</td>
-                    <td class="toggle-row text-end col-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                             class="bi bi-chevron-bar-expand" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                  d="M3.646 10.146a.5.5 0 0 1 .708 0L8 13.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-4.292a.5.5 0 0 0 .708 0L8 2.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708zM1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8"/>
-                        </svg>
-                    </td>
-                    <td class="text-end col-1"><a href="{% url 'task_update' pk=task.pk %}" class="btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                             class="bi bi-pencil" viewBox="0 0 16 16">
-                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                        </svg>
-                    </a></td>
-                    <td class="text-end col-1"><a href="{% url 'task_delete' pk=task.pk %}" class="btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                             class="bi bi-basket2-fill" viewBox="0 0 16 16">
-                            <path d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383L5.93 1.757zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm4-1a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1"/>
-                        </svg>
-                    </a></td>
-                </tr>
-                <tr class="collapse table-warning" id="{{ task.pk }}">
-                    <td colspan="3">Description: {{ task.description }}</td>
-                    <td class="text-center">Priority: {{ task.get_priority_display}}</td>
-                    {% if task.deadline%}
-                    <td class="text-center">Deadline: {{ task.deadline }}</td>
-                    {% else %}
-                    <td class="text-center">No deadline set</td>
-                    {% endif %}
-                    <td class="text-center">Created: {{ task.created_at }}</td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% endfor %}
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-6 text-center mt-4 p-4">
-                <div type="button" class="btn btn-primary">
-                    <a href="{% url 'project_create' %}" class="link-light link-underline link-underline-opacity-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none"
-                             class="bi bi-plus-lg" viewBox="0 0 16 16" stroke="green" stroke-width="2">
-                            <path fill-rule="evenodd"
-                                  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-                        </svg>
-                        <span class="btn-project">Add TODO List</span></a>
+{% for project in projects %}
+<div class="row justify-content-center ">
+    <table class="table table-hover col-lg-12 col-md-9 col-sm-6 col-xs-3">
+        <thead>
+        <tr class="table-primary table-active">
+            <th class="text-center col-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     class="bi bi-window-dock justify-content-center" viewBox="0 0 16 16">
+                    <path d="M3.5 11a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm4.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
+                    <path d="M14 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zM2 14h12a1 1 0 0 0 1-1V5H1v8a1 1 0 0 0 1 1M2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1z"/>
+                </svg>
+            </th>
+            <th colspan="3" class="text-light"><span class="project-name">{{ project.name }}</span></th>
+            <th class="text-end col-1"><a href="{% url 'project_update' pk=project.pk %}" class="btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     class="bi bi-pencil" viewBox="0 0 16 16">
+                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                </svg>
+            </a></th>
+            <th class="text-end col-1"><a href="{% url 'project_delete' pk=project.pk %}" class="btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     class="bi bi-basket2-fill" viewBox="0 0 16 16">
+                    <path d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383L5.93 1.757zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm4-1a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1"/>
+                </svg>
+            </a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table-secondary">
+            <td class="text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none"
+                     class="bi bi-plus-lg" viewBox="0 0 16 16" stroke="green" stroke-width="2">
+                    <path fill-rule="evenodd"
+                          d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                </svg>
+            </td>
+            <form action="{% url 'task_create' pk=project.pk %}" method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="task_name" class="form-label"></label>
+                    <td colspan="3"><input type="text" class="form-control" id="task_name" name="name"
+                                           placeholder="Start typing here to create a task"></td>
                 </div>
-            </div>
-        </div>
-        {% else %}
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-6 text-center mt-4 p-4">
-                <h1>Please register or log in</h1>
-            </div>
-        </div>
-        {% endif %}
-    </div>
+                <td class="text-center" colspan="2">
+                    <button type="submit" class="btn btn-color"><span class="btn-task">Add Task</span></button>
+                </td>
+            </form>
+        </tr>
+        {% for task in project.tasks.all %}
+        <tr data-bs-toggle="#" data-bs-target="#{{ task.pk }}" aria-expanded="false"
+            aria-controls="{{ task.pk }}">
+            <td>
+                {% include 'src/task_checkbox.html' %}
+
+            </td>
+            <td colspan=2 class="text-start">{{ task.name }}</td>
+            <td class="toggle-row text-end col-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-chevron-bar-expand" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M3.646 10.146a.5.5 0 0 1 .708 0L8 13.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-4.292a.5.5 0 0 0 .708 0L8 2.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708zM1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8"/>
+                </svg>
+            </td>
+            <td class="text-end col-1"><a href="{% url 'task_update' pk=task.pk %}" class="btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-pencil" viewBox="0 0 16 16">
+                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                </svg>
+            </a></td>
+            <td class="text-end col-1"><a href="{% url 'task_delete' pk=task.pk %}" class="btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-basket2-fill" viewBox="0 0 16 16">
+                    <path d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383L5.93 1.757zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm4-1a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1"/>
+                </svg>
+            </a></td>
+        </tr>
+        <tr class="collapse table-warning" id="{{ task.pk }}">
+            <td colspan="3">Description: {{ task.description }}</td>
+            <td class="text-center">Priority: {{ task.get_priority_display}}</td>
+            {% if task.deadline%}
+            <td class="text-center">Deadline: {{ task.deadline }}</td>
+            {% else %}
+            <td class="text-center">No deadline set</td>
+            {% endif %}
+            <td class="text-center">Created: {{ task.created_at }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
-{% endblock %}
+{% endfor %}
+
+
