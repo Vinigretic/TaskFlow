@@ -40,17 +40,17 @@
                           d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
                 </svg>
             </td>
-            <form action="{% url 'task_create' pk=project.pk %}" method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <label for="task_name" class="form-label"></label>
-                    <td colspan="3"><input type="text" class="form-control" id="task_name" name="name"
-                                           placeholder="Start typing here to create a task"></td>
-                </div>
-                <td class="text-center" colspan="2">
-                    <button type="submit" class="btn btn-color"><span class="btn-task">Add Task</span></button>
-                </td>
-            </form>
+
+            <div class="mb-3">
+                <label for="task_name" class="form-label"></label>
+                <td colspan="3"><input type="text" class="form-control" id="task_name" name="name"
+                                       placeholder="Start typing here to create a task"></td>
+            </div>
+            <td class="text-center" colspan="2">
+                <button hx-get="{% url 'task_create' pk=project.pk %}" hx-target="#query_result" hx-swap="innerHTML"
+                        hx-trigger="click" class="btn btn-color"><span class="btn-task">Add Task</span></button>
+            </td>
+
         </tr>
         {% for task in project.tasks.all %}
         <tr data-bs-toggle="#" data-bs-target="#{{ task.pk }}" aria-expanded="false"
@@ -67,13 +67,17 @@
                           d="M3.646 10.146a.5.5 0 0 1 .708 0L8 13.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-4.292a.5.5 0 0 0 .708 0L8 2.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708zM1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8"/>
                 </svg>
             </td>
-            <td class="text-end col-1"><a href="{% url 'task_update' pk=task.pk %}" class="btn">
+            <td class="text-end col-1"><a hx-get="{% url 'task_update' pk=task.pk %}" hx-target="#query_result"
+                                          hx-swap="innerHTML"
+                                          hx-trigger="click" class="btn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-pencil" viewBox="0 0 16 16">
                     <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                 </svg>
             </a></td>
-            <td class="text-end col-1"><a href="{% url 'task_delete' pk=task.pk %}" class="btn">
+            <td class="text-end col-1"><a hx-get="{% url 'task_delete' pk=task.pk %}" hx-target="#query_result"
+                                          hx-swap="innerHTML"
+                                          hx-trigger="click" class="btn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-basket2-fill" viewBox="0 0 16 16">
                     <path d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383L5.93 1.757zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm4-1a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1"/>
